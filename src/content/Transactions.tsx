@@ -35,12 +35,9 @@ export default function Transactions() {
 								</div>
 								<div className='mx-2 p-1'>to {v.to} on </div>
 								<div className='bg-blue-500 m-2 p-1 rounded-lg'>
-									{v.date.toDate().toLocaleDateString('en-us', {
-										weekday: 'long',
-										year: 'numeric',
-										month: 'short',
-										day: 'numeric',
-									})}
+									{v.date.toDate().toLocaleDateString('en-us') +
+										' ' +
+										v.date.toDate().toLocaleTimeString('en-us')}
 								</div>
 							</div>
 					  ))
