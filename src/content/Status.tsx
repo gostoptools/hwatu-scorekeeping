@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuthStateHook } from '../core/Firebase';
-import { Error403 } from '../core/Errors';
+import { NotInGame } from '../core/Errors';
 import { getFirestore, setDoc, collection, doc } from 'firebase/firestore';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import Valid from '../core/Valid';
@@ -8,7 +8,7 @@ import Valid from '../core/Valid';
 export default function Status() {
 	const [user] = useAuthStateHook();
 
-	if (!user || !Valid(user)) return <Error403 />;
+	if (!user || !Valid(user)) return <NotInGame />;
 	return (
 		<div className='m-2 p-3'>
 			<h1 className='my-5 text-3xl p-3'> Status </h1>

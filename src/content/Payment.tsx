@@ -13,12 +13,14 @@ import {
 } from 'firebase/firestore';
 import { setDoc, Timestamp, updateDoc } from '@firebase/firestore';
 import { useAuthStateHook } from '../core/Firebase';
-import { Error403 } from '../core/Errors';
 import Valid from '../core/Valid';
 
 const pointsref = collection(getFirestore(), 'points');
 const transactref = collection(getFirestore(), 'transactions');
 
+/*
+Score display + Paying functionality for insiders
+*/
 function Pay(props: {
 	uid: string;
 	email: string;
@@ -94,9 +96,39 @@ function Pay(props: {
 	);
 }
 
+/*
+Displaying scores to outsiders.
+*/
+function Scores(props: { uid: string; email: string }) {
+	const ref = doc(pointsref, props.uid);
+	const [value, loading, error] = useDocumentData(ref);
+	return (
+		<div className='dark:bg-gray-700 bg-gray-300 m-2 p-3 text-xl rounded-xl flex flex-row flex-wrap'>
+			{loading ? <> Loading ... </> : null}
+			{error ? <> Error! </> : null}
+			{value ? (
+				<>
+					<label className='flex flex-row flex-wrap m-2 p-1'>
+						<div
+							className={
+								(value.points >= 0 ? 'bg-green-500' : 'bg-red-500') +
+								' ' +
+								'rounded-lg p-1 mx-2'
+							}
+						>
+							{value.points} Points
+						</div>{' '}
+						{value.email}
+					</label>{' '}
+				</>
+			) : null}
+		</div>
+	);
+}
+
 export default function Payment() {
 	const [user] = useAuthStateHook();
-	const q = user ? query(pointsref, where('uid', '!=', user!.uid)) : null;
+	const q = query(pointsref, where('uid', '!=', user ? user!.uid : null));
 	const [values, loading, errors] = useCollectionData(q);
 	const userref = user && Valid(user) ? doc(pointsref, user?.uid) : null;
 	const [userdata, userDataLoading] = useDocumentData(userref);
@@ -104,31 +136,33 @@ export default function Payment() {
 		<div className='m-2 p-3'>
 			<h1 className='my-5 text-3xl p-3'> Other Users </h1>
 			<div className='dark:bg-gray-800 bg-gray-200 m-2 p-3 rounded-lg text-2xl'>
-				{user &&
-				!userDataLoading &&
-				userdata?.points !== undefined &&
-				Valid(user) ? (
-					<>
-						{loading ? <>Loading ... </> : null}
-						{errors ? <>Error! </> : null}
-						{values
-							? values.map((x) => (
-									<Pay
-										uid={x.uid}
-										email={x.email}
-										user={{
-											uid: user!.uid,
-											email: user!.email!,
-											points: userdata!.points,
-										}}
-										key={x.uid}
-									/>
-							  ))
-							: null}
-					</>
-				) : (
-					<Error403 />
-				)}
+				<>
+					{loading ? <>Loading ... </> : null}
+					{errors ? <>Error! </> : null}
+					{values ? (
+						<>
+							{user &&
+							!userDataLoading &&
+							userdata?.points !== undefined &&
+							Valid(user)
+								? values.map((x) => (
+										<Pay
+											uid={x.uid}
+											email={x.email}
+											user={{
+												uid: user!.uid,
+												email: user!.email!,
+												points: userdata!.points,
+											}}
+											key={x.uid}
+										/>
+								  ))
+								: values.map((x) => (
+										<Scores uid={x.uid} email={x.email} key={x.uid} />
+								  ))}
+						</>
+					) : null}
+				</>
 			</div>
 		</div>
 	);

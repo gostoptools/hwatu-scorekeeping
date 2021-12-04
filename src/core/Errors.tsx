@@ -9,3 +9,11 @@ export function Error403() {
 		</div>
 	);
 }
+
+export function NotInGame() {
+	return (
+		<div>
+			<h1 className='text-3xl m-2 p-3 rounded-lg'>You are not in the game.</h1>
+		</div>
+	);
+}

@@ -11,6 +11,13 @@ export default function Home() {
 				This app uses firebase firestore to maintain transactions in a game of
 				go-stop.
 			</p>
+			<p className='text-center m-2 p-3 text-xl'>
+				More information about this system is available at{' '}
+				<a href='https://gostoptools.github.io' className='underline'>
+					this website
+				</a>
+				.
+			</p>
 		</div>
 	);
 }
