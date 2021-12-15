@@ -44,7 +44,7 @@ function Pay(props: {
 								'rounded-lg p-1 mx-2'
 							}
 						>
-							{value.points} Points
+							{value.points} MOK
 						</div>{' '}
 						{value.email}
 					</label>{' '}
@@ -116,7 +116,7 @@ function Scores(props: { uid: string; email: string }) {
 								'rounded-lg p-1 mx-2'
 							}
 						>
-							{value.points} Points
+							{value.points} MOK
 						</div>{' '}
 						{value.email}
 					</label>{' '}

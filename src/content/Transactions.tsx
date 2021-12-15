@@ -29,7 +29,7 @@ export default function Transactions() {
 							>
 								<div className='mx-2 p-1'>{v.from} paid </div>
 								<div className='bg-green-500 m-2 p-1 rounded-lg'>
-									{v.amount} point{v.amount === 1 ? null : 's'}
+									{v.amount} MOK
 								</div>
 								<div className='mx-2 p-1'>to {v.to} on </div>
 								<div className='bg-blue-500 m-2 p-1 rounded-lg'>

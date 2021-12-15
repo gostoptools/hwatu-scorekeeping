@@ -44,7 +44,7 @@ export function Points(props: { uid: string; email: string }) {
 					}
 				>
 					{' '}
-					Points: {value.points}
+					MOK: {value.points}
 				</div>
 			) : null}
 			{loading ? <> Loading... </> : null}

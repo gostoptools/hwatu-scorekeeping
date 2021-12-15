@@ -18,6 +18,10 @@ export default function Home() {
 				</a>
 				.
 			</p>
+
+			<p className='text-center m-2 p-3 text-xl'>
+				Note that the unit of currency is a <strong>MOK</strong>
+			</p>
 		</div>
 	);
 }
